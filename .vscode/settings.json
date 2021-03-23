@@ -1,0 +1,23 @@
+{
+  "files.eol": "\n",
+  "eslint.packageManager": "yarn",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint",
+    "source.fixAll.stylelint",
+    "source.organizeImports"
+  },
+  "eslint.workingDirectories": [
+    {
+      "directory": "./backend",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./frontend",
+      "changeProcessCWD": true
+    }
+  ]
+}
+
+
