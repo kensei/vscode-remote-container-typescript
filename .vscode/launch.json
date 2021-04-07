@@ -5,16 +5,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "backend launch",
-      "program": "${workspaceFolder}/backend/src/index.ts",
-      "request": "launch",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "type": "pwa-node",
-      "preLaunchTask": "backend-compile"
-    },
-    {
       "type": "chrome",
       "request": "launch",
       "name": "frontend launch",
@@ -25,11 +15,22 @@
       "trace": true,
       "sourceMaps": true,
       "breakOnLoad": true,
+      "disableNetworkCache": true,
       "sourceMapPathOverrides": {
-        "webpack:///src/*": "${webRoot}/*"
+        "webpack:///./src/*": "${webRoot}/*"
       },
       "skipFiles": ["<node_internals>/**"],
       "preLaunchTask": "frontend-compile"
     },
+    {
+      "name": "backend launch",
+      "program": "${workspaceFolder}/backend/src/index.ts",
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node",
+      "preLaunchTask": "backend-compile"
+    }
   ]
 }

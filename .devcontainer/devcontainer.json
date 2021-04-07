@@ -13,7 +13,6 @@
 
   // The 'service' property is the name of the service for the container that VS Code should
   // use. Update this value and .devcontainer/docker-compose.yml to the real service name.
-  //"service": "node-backend",
   "service": "node-app",
 
   // The optional 'workspaceFolder' property is the path VS Code should open by default when
@@ -41,7 +40,8 @@
   // "runServices": [],
   "runServices": [
     "node-app",
-    "mysql"
+    "mysql",
+    "redis"
   ],
 
   // Uncomment the next line if you want to keep your containers running after VS Code shuts down.
