@@ -3,14 +3,12 @@
     "target": "esnext",
     "module": "esnext",
     "strict": true,
-    "allowJs": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
@@ -28,6 +26,7 @@
       "scripthost"
     ]
   },
+  "outDir": "dist",
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
@@ -35,5 +34,7 @@
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],
-  "outDir": "dist"
+  "exclude": [
+    "node_modules"
+  ]
 }
