@@ -2,6 +2,7 @@
   <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
+    <router-link to="/todo">Todo</router-link>
   </div>
   <router-view />
 </template>
@@ -28,3 +29,15 @@
   color: #42b983;
 }
 </style>
+
+<script lang="ts">
+import { defineComponent, provide } from "vue";
+import TodoStore, { todoKey } from "@/store/todo";
+
+export default defineComponent({
+  name: "Todo",
+  setup() {
+    provide(todoKey, TodoStore);
+  },
+});
+</script>
