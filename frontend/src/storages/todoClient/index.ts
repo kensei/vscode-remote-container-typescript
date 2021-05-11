@@ -2,7 +2,7 @@ import { Todo, Params } from "@/store/todo/types";
 import { TodoClientInterface } from "./types";
 
 export class TodoClient implements TodoClientInterface {
-  getAll(): Promise<Todo[]> {
+  async getAll(): Promise<Todo[]> {
     return Promise.resolve(
       Object.keys(localStorage)
         .filter((key) => !isNaN(Number(key)))
@@ -13,7 +13,7 @@ export class TodoClient implements TodoClientInterface {
     );
   }
 
-  get(id: number): Promise<Todo> {
+  async get(id: number): Promise<Todo> {
     const item = localStorage.getItem(String(id));
     if (item === null) {
       return Promise.reject(new Error(`id: ${id} is not found`));
@@ -22,19 +22,19 @@ export class TodoClient implements TodoClientInterface {
     return Promise.resolve(JSON.parse(item) as Todo);
   }
 
-  create(params: Params): Promise<Todo> {
+  async create(params: Params): Promise<Todo> {
     const todo = this.intitializeTodo(params);
     localStorage.setItem(String(todo.id), JSON.stringify(todo));
     return Promise.resolve(todo);
   }
 
-  update(id: number, todo: Todo): Promise<Todo> {
+  async update(id: number, todo: Todo): Promise<Todo> {
     localStorage.removeItem(String(id));
     localStorage.setItem(String(id), JSON.stringify(todo));
     return Promise.resolve(todo);
   }
 
-  delete(id: number): Promise<void> {
+  async delete(id: number): Promise<void> {
     localStorage.removeItem(String(id));
     return Promise.resolve();
   }

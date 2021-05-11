@@ -11,3 +11,10 @@ export interface TodoClientInterface {
 
   delete(id: number): Promise<void>;
 }
+
+export interface TodoJsonResponseType {
+  id: number;
+  title: string;
+  description: string;
+  is_done: boolean;
+}

@@ -38,9 +38,9 @@ export default defineComponent({
       isDone: false,
     });
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
       const { title, description, isDone } = data;
-      todoStore.addTodo({
+      await todoStore.addTodo({
         title,
         description,
         isDone,

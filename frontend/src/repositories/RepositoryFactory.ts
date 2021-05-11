@@ -1,5 +1,6 @@
-import { TodoClient } from "@/repositories/todoClient";
-import { TodoClientInterface } from "@/repositories/todoClient/types";
+import { TodoClient } from "@/storages/todoClient";
+import { TodoApiClient } from "@/storages/todoClient/api";
+import { TodoClientInterface } from "@/storages/todoClient/types";
 
 export const TODOS = "todos";
 
@@ -8,5 +9,6 @@ export interface Repositories {
 }
 
 export default {
-  [TODOS]: new TodoClient(),
+  [TODOS]:
+    process.env.NODE_ENV === "api" ? new TodoApiClient() : new TodoClient(),
 } as Repositories;

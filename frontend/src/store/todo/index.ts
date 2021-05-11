@@ -10,12 +10,20 @@ const state = reactive<TodoState>({
 });
 
 const fetchTodos = async (): Promise<void> => {
-  state.todos = await TodoRepository.getAll();
+  try {
+    state.todos = await TodoRepository.getAll();
+  } catch (e) {
+    throw new Error("fetch todos fail.");
+  }
 };
 
 const fetchTodo = async (id: number): Promise<void> => {
-  const todo = await TodoRepository.get(id);
-  state.todos.push(todo);
+  try {
+    const todo = await TodoRepository.get(id);
+    state.todos.push(todo);
+  } catch (e) {
+    throw new Error("fetch todo fail.");
+  }
 };
 
 // idを指定して一致するTODOを取得
@@ -29,24 +37,36 @@ const getTodo = (id: number): Todo => {
 
 // 新たにTODOを作成
 const addTodo = async (todo: Params): Promise<void> => {
-  const result = await TodoRepository.create(todo);
-  state.todos.push(result);
+  try {
+    const result = await TodoRepository.create(todo);
+    state.todos.push(result);
+  } catch (e) {
+    throw new Error("fetch todo fail.");
+  }
 };
 
 // idを指定して一致するTODOを更新
-const updateTodo = async (id: number, todo: Todo): Promise<void> => {
-  const result = await TodoRepository.update(id, todo);
-  const index = state.todos.findIndex((todo) => todo.id === id);
-  if (index === -1) {
-    throw new Error(`cannot find todo by id:${id}`);
+const updateTodo = async (id: number, todo: Todo): Promise<void | never> => {
+  try {
+    const result = await TodoRepository.update(id, todo);
+    const index = state.todos.findIndex((todo) => todo.id === id);
+    if (index === -1) {
+      throw new Error(`cannot find todo by id:${id}`);
+    }
+    state.todos[index] = result;
+  } catch (e) {
+    throw new Error("fetch todo fail.");
   }
-  state.todos[index] = result;
 };
 
 // idを指定して一致TODOを削除
 const deleteTodo = async (id: number): Promise<void> => {
-  TodoRepository.delete(id);
-  state.todos = state.todos.filter((todo) => todo.id !== id);
+  try {
+    TodoRepository.delete(id);
+    state.todos = state.todos.filter((todo) => todo.id !== id);
+  } catch (e) {
+    throw new Error("fetch todo fail.");
+  }
 };
 
 const todoStore: TodoStore = {

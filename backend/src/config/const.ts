@@ -6,3 +6,5 @@ export enum ResponseStatusCode {
   Success = 200,
   Fail = 500,
 }
+
+export const CORS_URI = "http://localhost:3000";

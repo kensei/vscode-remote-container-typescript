@@ -50,9 +50,9 @@ export default defineComponent({
       });
 
       // フォームのsubmit時に、todoStoreのupdateTodoを呼び出して更新
-      const onSubmit = () => {
+      const onSubmit = async () => {
         const { title, description, isDone } = data;
-        todoStore.updateTodo(id, {
+        await todoStore.updateTodo(id, {
           ...todo,
           title,
           description,

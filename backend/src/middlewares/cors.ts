@@ -1,12 +1,13 @@
 import { Express } from "express";
-import { Cors } from "cors";
+import cors from "cors";
+import { CORS_URI } from "config/const";
 
 export function useCorsMiddlewares(app: Express) {
   app.use(
-    Cors({
-      origin: "http://localhost:3000", //アクセス許可するオリジン
-      credentials: true, //レスポンスヘッダーにAccess-Control-Allow-Credentials追加
-      optionsSuccessStatus: 200, //レスポンスstatusを200に設定
+    cors({
+      origin: CORS_URI, // アクセス許可するオリジン
+      credentials: true, // レスポンスヘッダーにAccess-Control-Allow-Credentials追加
+      optionsSuccessStatus: 200, // レスポンスstatusを200に設定
     })
   );
 }
