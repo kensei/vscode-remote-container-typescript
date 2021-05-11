@@ -10,7 +10,8 @@
       <textarea id="description" v-model="data.description" />
     </div>
     <div>
-      <label for="status">ステータス</label>
+      <label for="isDone">完了</label>
+      <input type="checkbox" id="isDone" v-model="data.isDone" />
     </div>
     <button @click="onSubmit">作成する</button>
   </form>

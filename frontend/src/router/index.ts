@@ -28,6 +28,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/todo/AddTodo.vue"),
   },
+  {
+    path: "/todo/edit/:id",
+    name: "EditTodo",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/todo/EditTodo.vue"),
+  },
 ];
 
 const router = createRouter({

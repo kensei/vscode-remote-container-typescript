@@ -1,42 +1,21 @@
 import { InjectionKey, reactive, readonly } from "vue";
 import { Todo, TodoState, TodoStore, Params } from "@/store/todo/types";
+import Repository, { TODOS } from "@/repositories/RepositoryFactory";
 
-// 永続化の処理を実装していないので、とりあえずモックとしてデータを用意
-const mockTodo: Todo[] = [
-  {
-    id: 1,
-    title: "todo1",
-    description: "desc1",
-    isDone: true,
-  },
-  {
-    id: 2,
-    title: "todo2",
-    description: "desc2",
-    isDone: false,
-  },
-  {
-    id: 3,
-    title: "todo3",
-    description: "desc3",
-    isDone: false,
-  },
-];
+const TodoRepository = Repository[TODOS];
 
-// リアクティブなデータを宣言(仮実装)
+// リアクティブなデータを宣言
 const state = reactive<TodoState>({
-  todos: mockTodo,
+  todos: [],
 });
 
-// 新たに作成されたTODOの初期化処理の仮実装
-const intitializeTodo = (todo: Params) => {
-  const date = new Date();
-  return {
-    id: date.getTime(),
-    title: todo.title,
-    description: todo.description,
-    isDone: todo.isDone,
-  } as Todo;
+const fetchTodos = async (): Promise<void> => {
+  state.todos = await TodoRepository.getAll();
+};
+
+const fetchTodo = async (id: number): Promise<void> => {
+  const todo = await TodoRepository.get(id);
+  state.todos.push(todo);
 };
 
 // idを指定して一致するTODOを取得
@@ -49,26 +28,31 @@ const getTodo = (id: number): Todo => {
 };
 
 // 新たにTODOを作成
-const addTodo = (todo: Params): void => {
-  state.todos.push(intitializeTodo(todo));
+const addTodo = async (todo: Params): Promise<void> => {
+  const result = await TodoRepository.create(todo);
+  state.todos.push(result);
 };
 
 // idを指定して一致するTODOを更新
-const updateTodo = (id: number, todo: Todo): void => {
+const updateTodo = async (id: number, todo: Todo): Promise<void> => {
+  const result = await TodoRepository.update(id, todo);
   const index = state.todos.findIndex((todo) => todo.id === id);
   if (index === -1) {
     throw new Error(`cannot find todo by id:${id}`);
   }
-  state.todos[index] = todo;
+  state.todos[index] = result;
 };
 
 // idを指定して一致TODOを削除
-const deleteTodo = (id: number): void => {
+const deleteTodo = async (id: number): Promise<void> => {
+  TodoRepository.delete(id);
   state.todos = state.todos.filter((todo) => todo.id !== id);
 };
 
 const todoStore: TodoStore = {
   state: readonly(state),
+  fetchTodos,
+  fetchTodo,
   getTodo,
   addTodo,
   updateTodo,
