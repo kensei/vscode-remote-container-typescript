@@ -4,9 +4,9 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint",
-    "source.fixAll.stylelint",
-    "source.organizeImports"
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true,
+    "source.organizeImports": true
   },
   "eslint.workingDirectories": [
     {
@@ -19,5 +19,3 @@
     }
   ]
 }
-
-

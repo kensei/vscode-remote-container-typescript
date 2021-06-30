@@ -13,23 +13,24 @@ export class TodoApiClient implements TodoClientInterface {
   }
 
   async getAll(): Promise<Todo[]> {
-    let result: Todo[] = [];
-    await axios
-      .get("/tasks")
-      .then((response) => {
-        const parsedResponse = this.hendleResponse(
-          response
-        ) as TodoJsonResponseType[];
-        result = parsedResponse.map(this.convartTodo);
-      })
-      .catch((error) => {
-        if (error.isAxiosError) {
-          return Promise.reject(new Error(error.response));
-        } else {
-          return Promise.reject(new Error(error));
-        }
-      });
-    return Promise.resolve(result);
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/tasks")
+        .then((res) => {
+          const parseResponse = this.hendleResponse(
+            res
+          ) as TodoJsonResponseType[];
+          const result = parseResponse.map(this.convartTodo);
+          resolve(result);
+        })
+        .catch((error) => {
+          if (error.isAxiosError) {
+            reject(new Error(error.response));
+          } else {
+            reject(new Error(error));
+          }
+        });
+    });
   }
 
   async get(id: number): Promise<Todo> {

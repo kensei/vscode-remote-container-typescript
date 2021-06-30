@@ -14,7 +14,11 @@ export async function getTasks(
     const conn = await connect();
     const tasks = await conn.query("SELECT * FROM tasks");
     console.log(tasks[0]);
-    return respondWith(res, ResponseStatusCode.Success, tasks[0]);
+    const response = {
+      user_id: req.body.userId,
+      tasks: tasks[0],
+    };
+    return respondWith(res, ResponseStatusCode.Success, response);
   } catch (e) {
     console.log(e);
     return respondWith(res, ResponseStatusCode.Fail, null);
@@ -47,25 +51,24 @@ export async function addTask(req: Request, res: Response) {
   const pool: Pool = await connect();
   const conn: PoolConnection = await pool.getConnection();
   try {
-    await transaction(
-      conn,
-      async (connection: PoolConnection): Promise<any | void> => {
-        const newTitle: string = req.body.title;
-        const newDescription: string = req.body.description;
-        const addTask = await connection.query(
-          "insert into tasks (title, description) values (?, ?)",
-          [newTitle, newDescription]
-        );
-        console.log(addTask);
-        const resultSet: any = addTask[0];
-        const result = {
-          id: resultSet.insertId,
-          title: newTitle,
-          description: newDescription,
-        };
-        return respondWith(res, ResponseStatusCode.Success, result);
-      }
-    );
+    await transaction(conn, async (connection: PoolConnection): Promise<
+      any | void
+    > => {
+      const newTitle: string = req.body.title;
+      const newDescription: string = req.body.description;
+      const addTask = await connection.query(
+        "insert into tasks (title, description) values (?, ?)",
+        [newTitle, newDescription]
+      );
+      console.log(addTask);
+      const resultSet: any = addTask[0];
+      const result = {
+        id: resultSet.insertId,
+        title: newTitle,
+        description: newDescription,
+      };
+      return respondWith(res, ResponseStatusCode.Success, result);
+    });
   } catch (e) {
     return respondWith(res, ResponseStatusCode.Fail, null);
   }
